@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 import vttp5a_paf.day24_25ws.model.Order;
@@ -18,9 +19,13 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepo;
+
+    @Autowired
+    private RegistrationService registrationService;
     
     // {customerName=[hello], shipAddress=[bye], notes=[lala], product=[as, wer], 
     // unitPrice=[0.1, 0.1], quantity=[1, 1]}
+    @Transactional
     public Boolean addOrder(MultiValueMap<String, String> form){
 
         Order o = new Order();
@@ -56,6 +61,9 @@ public class OrderService {
             }
         }
         o.setLineItems(lineItems);
+
+        registrationService.saveOrder(o);
+
         return true;
     }
 }

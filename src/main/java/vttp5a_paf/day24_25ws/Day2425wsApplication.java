@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import vttp5a_paf.day24_25ws.component.MessagePoller;
 import vttp5a_paf.day24_25ws.service.RegistrationService;
 import vttp5a_paf.day24_25ws.utils.Constants;
 
@@ -13,6 +14,9 @@ public class Day2425wsApplication implements CommandLineRunner{
 
 	@Autowired
 	private RegistrationService registrationService;
+
+	@Autowired
+	private MessagePoller poller;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Day2425wsApplication.class, args);
@@ -27,6 +31,7 @@ public class Day2425wsApplication implements CommandLineRunner{
 		
 		Constants.CUSTOMER_NAME = args[0];
 		registrationService.addToRegistration(Constants.CUSTOMER_NAME);
+		poller.start();
 	}
 
 }

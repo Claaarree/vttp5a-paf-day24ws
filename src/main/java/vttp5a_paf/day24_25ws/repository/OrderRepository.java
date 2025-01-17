@@ -28,7 +28,7 @@ public class OrderRepository {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement ps = con.prepareStatement(Queries.INSERT_ORDER_SQL, 
-                new String[]{"order_date", "customer_name", "ship_address", "notes"});
+                new String[]{"order_id"});
                 ps.setDate(1, o.getOrderDate());
                 ps.setString(2, o.getCustomerName());
                 ps.setString(3, o.getShipAddress());
@@ -43,6 +43,7 @@ public class OrderRepository {
         template.update(psc, keyHolder);
 
         int orderId = keyHolder.getKey().intValue();
+
 
         return orderId;
     }
