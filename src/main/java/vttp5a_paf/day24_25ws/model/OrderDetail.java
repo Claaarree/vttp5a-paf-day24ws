@@ -1,5 +1,8 @@
 package vttp5a_paf.day24_25ws.model;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+
 public class OrderDetail {
     
     private int id;
@@ -55,5 +58,14 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    
+    public static JsonObject toJson(OrderDetail od) {
+        JsonObject jObject = Json.createObjectBuilder()
+                .add("product", od.getProduct())
+                .add("unit_price", od.getUnitPrice())
+                .add("discount", od.getDiscount())
+                .add("quantity", od.getQuantity())
+                .build();
+
+        return jObject;
+    }
 }

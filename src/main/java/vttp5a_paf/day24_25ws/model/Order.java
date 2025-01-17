@@ -3,6 +3,10 @@ package vttp5a_paf.day24_25ws.model;
 import java.sql.Date;
 import java.util.List;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+
 public class Order {
     
     private int orderId;
@@ -78,5 +82,21 @@ public class Order {
         this.lineItems = lineItems;
     }
 
-    
+    public static JsonObject toJson(Order o) {
+        JsonArrayBuilder jArrayBuilder = Json.createArrayBuilder();
+        for (OrderDetail od : o.getLineItems()) {
+            JsonObject jsonObject = OrderDetail.toJson(od);
+            jArrayBuilder.add(jsonObject);
+        }
+
+        JsonObject orderJsonObject = Json.createObjectBuilder()
+                .add("customer_name", o.getCustomerName())
+                .add("ship_address", o.getShipAddress())
+                .add("notes", o.getNotes())
+                .add("tax", o.getTax())
+                .add("line_items", jArrayBuilder.build())
+                .build();
+
+        return orderJsonObject;
+    }
 }
